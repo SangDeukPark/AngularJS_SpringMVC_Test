@@ -1,0 +1,65 @@
+<!doctype html>
+<html>
+  <head>  	
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="icon" href="/img/admin/images/favicon.gif">
+      	
+    <link href='https://fonts.googleapis.com/css?family=Roboto:400,700,300,900' rel='stylesheet'>
+    <link href="https://s3.amazonaws.com/codecademy-content/projects/bootstrap.min.css" rel="stylesheet" />
+    <link href="/css/admin/dashboard.css" rel="stylesheet">
+    <script src="/css/admin/admin.css"></script> 
+    
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/angular/angular.min.js"></script> 
+    
+<script>
+var app = angular.module('Admin', []);
+
+app.controller('LoginController', ['$scope', '$http', function($scope, $http) {	  	
+	  $scope.login = function() {
+			//		
+			var dataObj = {
+					email : $scope.email,
+					password : $scope.password
+			};	
+
+			var res = $http.post('/adminInfo/loginForm', dataObj);			
+			res.success(function(data, status, headers, config) {
+				console.log(data);
+				if(data === true) {
+					window.location.replace("/view/index.html");
+				}				
+			});
+			res.error(function(data, status, headers, config) {
+				console.log( "failure message: " + JSON.stringify({data: data}));
+			});		
+			// Making the fields empty
+			//
+			$scope.email='';
+			$scope.password='';
+	    };
+	  }]);
+</script>    
+  </head>
+  <body ng-app="Admin">
+  
+<div class="col-md-6 col-md-offset-3">
+    <h2>Login</h2>    
+	<form name="loginForm" ng-controller="LoginController" ng-submit="loginForm.$valid && login()" novalidate>
+        <fieldset class="form-group">
+          <input ng-model="email" type="email" class="form-control" placeholder="jimmyDean@example.org" title="Email" required />
+        </fieldset>
+        <fieldset class="form-group">
+          <input ng-model="password" type="password" class="form-control" title="password" required />
+        </fieldset>   
+        <fieldset class="form-group">
+          <input type="submit" class="btn btn-primary pull-right" value="Login" />
+        </fieldset>
+	</form>
+</div>	
+
+  </body>
+</html>
+
+

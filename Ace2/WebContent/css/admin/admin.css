@@ -1,0 +1,11 @@
+@charset "utf-8";
+
+/********** admin **********/ 
+.neighborhood-guides {
+    background-color: #efefef;
+    border-bottom : 1px solid #dbdbdb;
+}
+
+.neighborhood-guides .container {
+  position: relative;
+}
