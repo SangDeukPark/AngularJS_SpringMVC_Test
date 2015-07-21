@@ -1,0 +1,44 @@
+<script>
+app.controller('AddController', ['$scope', '$http', '$location', function($scope, $http, $location) {	  	
+	  $scope.add = function() {
+			//		
+			var dataObj = {
+					email : $scope.email,
+					password : $scope.password,
+					name : $scope.name,
+					phoneNumber : $scope.phoneNumber,					
+			};	
+
+			var res = $http.post('/adminInfo/add/I/0', dataObj);			
+			res.success(function(data, status, headers, config) {
+				console.log(data);
+				$location.path('/list');
+			});
+			res.error(function(data, status, headers, config) {
+				console.log( "failure message: " + JSON.stringify({data: data}));
+			});		
+	    };
+	  }]);
+</script> 
+
+<div class="container col-md-6 col-md-offset-3">
+	<h1 class="text-muted">Member Add</h1>
+			<form name="userForm" ng-controller="AddController" ng-submit="userForm.$valid && add()" novalidate>
+			  <div class="form-group" ng-class="{ 'has-error': userForm.email.$invalid }">
+			    <input type="email" class="form-control" name="email" ng-model="email" required>
+			  </div>
+			  <div class="form-group" ng-class="{ 'has-error': userForm.password.$invalid }" ng-minlength="4" required>
+			    <input type="password" class="form-control" name="password" ng-model="password" required>
+			  </div>
+			  <div class="form-group" ng-class="{ 'has-error': userForm.confirmPassword.$invalid && userForm.password != userForm.confirmPassword }">
+			    <input type="password" class="form-control" name="confirmPassword" ng-model="confirmPassword" required>
+			  </div>
+			  <div class="form-group" ng-class="{ 'has-error': userForm.name.$invalid }">
+			    <input type="text" class="form-control" name="name" ng-model="name" required>
+			  </div>
+			  <div class="form-group" ng-class="{ 'has-error': userForm.phoneNumber.$invalid }">
+			    <input type="text" class="form-control" name="phoneNumber" ng-model="phoneNumber" required>
+			  </div>
+			  
+			</form>
+</div>
