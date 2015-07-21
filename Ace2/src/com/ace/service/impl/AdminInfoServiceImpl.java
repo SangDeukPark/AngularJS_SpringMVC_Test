@@ -2,13 +2,13 @@ package com.ace.service.impl;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ace.dao.AdminInfoDao;
 import com.ace.model.AdminInfo;
+import com.ace.model.PageVO;
 import com.ace.service.AdminInfoService;
 
 @Lazy(value=true)
@@ -33,11 +33,11 @@ public class AdminInfoServiceImpl implements AdminInfoService {
 		adminInfoDao.insertAdminInfo(vo);
 	}
 	@Transactional
-	public List<AdminInfo> selectAdminInfoList(AdminInfo vo) throws Exception {
+	public List<AdminInfo> selectAdminInfoList(PageVO vo) throws Exception {
 		return adminInfoDao.selectAdminInfoList(vo);
 	}
 	@Transactional
-	public int selectAdminInfoListCnt(AdminInfo vo) throws Exception {
+	public int selectAdminInfoListCnt(PageVO vo) throws Exception {
 		return adminInfoDao.selectAdminInfoListCnt(vo);
 	}	
 	@Transactional

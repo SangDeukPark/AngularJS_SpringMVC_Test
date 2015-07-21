@@ -8,11 +8,11 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.ace.dao.AdminInfoDao;
 import com.ace.model.AdminInfo;
+import com.ace.model.PageVO;
 
 @Repository("adminInfoDao")
 public class AdminInfoDaoImpl implements AdminInfoDao {
@@ -57,17 +57,23 @@ public class AdminInfoDaoImpl implements AdminInfoDao {
         session.persist(vo);
 	}
 
-	public List<AdminInfo> selectAdminInfoList(AdminInfo vo) {
+	public List<AdminInfo> selectAdminInfoList(PageVO vo) {
 		Session session = this.sessionFactory.getCurrentSession();
-		List<AdminInfo> AdminInfoList = session.createQuery("from AdminInfo").list();
+		//List<AdminInfo> AdminInfoList = session.createQuery("from AdminInfo").list();
+		
+		String hql = "FROM AdminInfo";
+        Query query = session.createQuery(hql);
+        query.setFirstResult(vo.getFirstIndex());
+        query.setMaxResults(vo.getLastIndex());
+        List<AdminInfo> results = query.list();
 		
 /*		for(AdminInfo p : AdminInfoList) {
 			System.out.println("AdminInfo List : " + p);
 		}*/
-		return AdminInfoList;
+		return results;
 	}
 
-	public int selectAdminInfoListCnt(AdminInfo vo) {
+	public int selectAdminInfoListCnt(PageVO vo) {
 		Session session = this.sessionFactory.getCurrentSession();
 		
 		//Projections example

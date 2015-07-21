@@ -5,7 +5,6 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Controller;
@@ -19,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ace.model.AdminInfo;
+import com.ace.model.PageVO;
 import com.ace.service.AdminInfoService;
 import com.ace.utils.AdminCommon;
 import com.ace.utils.StringUtil;
@@ -112,7 +112,7 @@ public class AdminInfoController {
 	 * Get Register Form
 	 */	
     @RequestMapping(value="/adminInfoReg", method=RequestMethod.GET)
-	public String adminInfoForm(@ModelAttribute("adminInfo") AdminInfo adminInfo, Model model) throws Exception
+	public String adminInfoForm(AdminInfo adminInfo, Model model) throws Exception
 	{
     	model.addAttribute("command", "I");
     	
@@ -122,42 +122,55 @@ public class AdminInfoController {
     /**
  	 * insert,update Member Info
  	 */	
-    @RequestMapping(value="/adminInfoReg", method = RequestMethod.POST)    
- 	public String insertAdminInfo(@ModelAttribute("adminInfo") AdminInfo adminInfo, BindingResult result, HttpServletRequest request) throws Exception	
+    @RequestMapping(value="/add/{command}/{id}", method = RequestMethod.POST)    
+ 	public @ResponseBody boolean insertAdminInfo(AdminInfo adminInfo, @PathVariable String command, @PathVariable String id, BindingResult result) throws Exception	
  	{ 
+    	boolean retBool = true;
  	    //adminInfo.setEmail(adminCommon.getAdminEmail(request));
  	    adminInfo.setPassword(adminInfo.getPassword());//EncryptUtils.toSHA256(
- 	   		
- 	   	if("I".equals(StringUtil.nullToEmpty(request.getParameter("command")))) {
- 	   		
- 	   		adminInfoService.insertAdminInfo(adminInfo);
- 	   	}
-     	else if ("U".equals(StringUtil.nullToEmpty(request.getParameter("command")))) {
-     		adminInfo.setId(StringUtil.nullToEmpty(request.getParameter("id")));
-     		adminInfoService.updateAdminInfo(adminInfo);
-     	}
+ 	    
+ 	    try {
+	 	   		
+	 	   	if("I".equals(StringUtil.nullToEmpty(command))) { 	   		
+	 	   		adminInfoService.insertAdminInfo(adminInfo);
+	 	   	}
+	     	else if ("U".equals(StringUtil.nullToEmpty(command))) {
+	     		adminInfo.setId(StringUtil.nullToEmpty(id));
+	     		adminInfoService.updateAdminInfo(adminInfo);
+	     	}
+ 	    }
+ 	    catch(Exception e) {
+ 	    	retBool = false;
+ 	    	throw e;
+ 	    }
  	   	
- 	   	return "redirect:/adminInfo/adminInfoList";
+ 	   	return retBool;//"redirect:/adminInfo/adminInfoList";
  	}  
     
 	/**
 	 * Get member list
 	 */	
     @RequestMapping(value="/adminInfoList")
-	public @ResponseBody List<AdminInfo> adminInfoList(AdminInfo adminInfoVO, HttpServletRequest request, HttpServletResponse response, Model model) throws Exception
+	public @ResponseBody List<AdminInfo> adminInfoList(PageVO pageVO, HttpServletRequest request, HttpServletResponse response, Model model) throws Exception
 	{
-	  	//adminCommon.setAdminPagingInfo(request, adminInfoVO, paginationInfo);	   	
-	
-		int count = adminInfoService.selectAdminInfoListCnt(adminInfoVO);
-		
-		//paginationInfo.setTotalRecordCount(count);
-		List<AdminInfo> resultList = adminInfoService.selectAdminInfoList(adminInfoVO);      
-	
-		model.addAttribute("adminInfoList", resultList);
-		//model.addAttribute("paginationInfo", paginationInfo);        
+    	// Set Pagination Data
+    	int startIndex = ((pageVO.getPageIndex() - 1) * pageVO.getPageUnit());
+    	pageVO.setFirstIndex(startIndex);
+    	pageVO.setLastIndex(startIndex +  pageVO.getPageUnit());
+    	
+		List<AdminInfo> resultList = adminInfoService.selectAdminInfoList(pageVO);  
 	       
-	   	return resultList; 
+	   	return resultList;
 	}   
+    
+	/**
+	 * Get member list
+	 */	
+    @RequestMapping(value="/adminInfoTotal")
+	public @ResponseBody int getAdminInfoTotal(PageVO pageVO, HttpServletRequest request, HttpServletResponse response, Model model) throws Exception
+	{	       
+	   	return adminInfoService.selectAdminInfoListCnt(pageVO);
+	}
   
 	/**
 	 * get Member Info by id

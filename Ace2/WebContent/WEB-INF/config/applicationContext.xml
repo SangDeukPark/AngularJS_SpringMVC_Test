@@ -61,7 +61,6 @@
         <property name="annotatedClasses">
             <list>
                 <value>com.ace.model.AdminInfo</value>
-                <value>com.ace.model.MemberAdmin</value>
             </list>
         </property> 
         <property name="hibernateProperties">
@@ -91,7 +90,7 @@
     </bean> -->
      
     <!-- For Pagination Tag -->
-    <bean id="imageRenderer" class="com.ace.utils.ImgPaginationRenderer"/>
+<!--     <bean id="imageRenderer" class="com.ace.utils.ImgPaginationRenderer"/>
 	<bean id="textRenderer" class="egovframework.rte.ptl.mvc.tags.ui.pagination.DefaultPaginationRenderer"/>
     <bean id="paginationManager" class="egovframework.rte.ptl.mvc.tags.ui.pagination.DefaultPaginationManager">
         <property name="rendererType">
@@ -100,7 +99,7 @@
                 <entry key="text" value-ref="textRenderer"/>
             </map>
         </property>
-    </bean>
+    </bean> -->
 	<!-- /For Pagination Tag -->    
 	
 <!-- 	<bean id= "messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">

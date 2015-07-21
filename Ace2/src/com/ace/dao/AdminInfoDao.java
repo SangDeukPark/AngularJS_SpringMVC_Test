@@ -3,9 +3,9 @@ package com.ace.dao;
 import java.util.List;
 
 import org.springframework.context.annotation.Lazy;
-import org.springframework.stereotype.Repository;
 
 import com.ace.model.AdminInfo;
+import com.ace.model.PageVO;
 
 @Lazy(value=true)
 public interface AdminInfoDao {
@@ -15,9 +15,9 @@ public interface AdminInfoDao {
 	
 	public void insertAdminInfo(AdminInfo vo);
 	
-	public List<AdminInfo> selectAdminInfoList(AdminInfo vo);
+	public List<AdminInfo> selectAdminInfoList(PageVO vo);
 	
-	public int selectAdminInfoListCnt(AdminInfo vo);
+	public int selectAdminInfoListCnt(PageVO vo);
 	
 	public AdminInfo selectAdminInfoById(AdminInfo vo);
 	

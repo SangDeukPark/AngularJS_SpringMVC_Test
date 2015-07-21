@@ -4,6 +4,7 @@ package com.ace.service;
 import java.util.List;
 
 import com.ace.model.AdminInfo;
+import com.ace.model.PageVO;
 
 public interface AdminInfoService {
 	public AdminInfo selectAdminInfoByEmail(AdminInfo vo) throws Exception;
@@ -12,9 +13,9 @@ public interface AdminInfoService {
 	
 	public void insertAdminInfo(AdminInfo vo) throws Exception;
 	
-	public List<AdminInfo> selectAdminInfoList(AdminInfo vo) throws Exception;
+	public List<AdminInfo> selectAdminInfoList(PageVO vo) throws Exception;
 	
-	public int selectAdminInfoListCnt(AdminInfo vo) throws Exception;
+	public int selectAdminInfoListCnt(PageVO vo) throws Exception;
 	
 	public AdminInfo selectAdminInfoById(AdminInfo vo) throws Exception;
 	

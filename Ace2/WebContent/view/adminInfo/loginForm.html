@@ -44,20 +44,24 @@ app.controller('LoginController', ['$scope', '$http', function($scope, $http) {
   </head>
   <body ng-app="Admin">
   
-<div class="col-md-6 col-md-offset-3">
-    <h2>Login</h2>    
-	<form name="loginForm" ng-controller="LoginController" ng-submit="loginForm.$valid && login()" novalidate>
-        <fieldset class="form-group">
-          <input ng-model="email" type="email" class="form-control" placeholder="jimmyDean@example.org" title="Email" required />
-        </fieldset>
-        <fieldset class="form-group">
-          <input ng-model="password" type="password" class="form-control" title="password" required />
-        </fieldset>   
-        <fieldset class="form-group">
+<div class="container col-md-6 col-md-offset-3">
+	<h1 class="text-muted">User login</h1>
+    <form name="loginForm" ng-controller="LoginController" ng-submit="loginForm.$valid && login()" novalidate>
+    	<fieldset class="form-group has-success has-feedback" ng-class="{ 'has-error' : loginForm.email.$invalid && !loginForm.email.$pristine }">
+    		<label for="emailField">Email address</label>
+			<input ng-model="email" type="email" name="email" class="form-control" title="Email" placeholder="Enter email" required />
+			<span class="glyphicon glyphicon-ok form-control-feedback"></span>
+    	</fieldset>
+    	<fieldset class="form-group has-success has-feedback" ng-class="{ 'has-error' : loginForm.password.$invalid && !loginForm.email.$pristine }">
+    		<label for="passwordField">Password</label>
+			<input ng-model="password" type="password" name="password" class="form-control" title="password" ng-minlength="4" required>
+    	</fieldset>
+    	<fieldset class="form-group">
           <input type="submit" class="btn btn-primary pull-right" value="Login" />
         </fieldset>
-	</form>
-</div>	
+    </form>    
+    
+</div>
 
   </body>
 </html>
