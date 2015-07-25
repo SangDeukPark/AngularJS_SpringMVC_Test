@@ -1,2 +1,8 @@
 # AngularJS_SpringMVC_Test
-Personal Project for portfolio
+Jake's Personal Project for portfolio
+
+# Simple CRUD web application
+
+# Environment
+FrontEnd : HTML, CSS, BootStrap, AngularJS, Javascript
+BackEnd : Java, Spring MVC, Hibernate
