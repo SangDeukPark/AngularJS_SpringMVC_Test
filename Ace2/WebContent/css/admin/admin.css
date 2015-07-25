@@ -9,3 +9,16 @@
 .neighborhood-guides .container {
   position: relative;
 }
+
+.form-group .form-control {
+ 	margin-left : 10px;
+ 	width : 300px;
+ 	margin-bottom : 10px;
+}
+
+.container label {
+	 margin-left:5px; 
+	 color:#fff; 
+	 background-color:#428BCA;
+	 margin-right:5px;	
+}

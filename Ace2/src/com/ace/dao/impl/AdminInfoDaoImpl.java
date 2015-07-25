@@ -6,6 +6,7 @@ import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
@@ -54,7 +55,10 @@ public class AdminInfoDaoImpl implements AdminInfoDao {
 	public void insertAdminInfo(AdminInfo vo) {
 		Session session = this.sessionFactory.getCurrentSession();
         //Save the Model object
-        session.persist(vo);
+        //session.persist(vo);
+		//Transaction tx1 = session.beginTransaction();
+		session.save(vo);
+		//tx1.commit();
 	}
 
 	public List<AdminInfo> selectAdminInfoList(PageVO vo) {

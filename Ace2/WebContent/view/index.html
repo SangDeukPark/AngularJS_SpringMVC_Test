@@ -3,16 +3,17 @@
   <head>  	
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <link rel="icon" href="/img/admin/images/favicon.gif">
-      	
+    <link rel="icon" href="/img/admin/images/favicon.gif">      	
+    
     <link href='https://fonts.googleapis.com/css?family=Roboto:400,700,300,900' rel='stylesheet'>
     <link href="https://s3.amazonaws.com/codecademy-content/projects/bootstrap.min.css" rel="stylesheet" />
     <link href="/css/admin/dashboard.css" rel="stylesheet">
-    <script src="/css/admin/admin.css"></script> 
+    <link href="/css/admin/admin.css" rel="stylesheet"></link> 
     
+    <script src="//code.jquery.com/jquery-1.11.3.js"></script>
     <script src="/js/bootstrap.min.js"></script>
     <script src="/js/angular/angular.min.js"></script> 
-    <script src="https://code.angularjs.org/1.2.28/angular-route.min.js"></script>
+    <script src="https://code.angularjs.org/1.2.28/angular-route.min.js"></script>    
   </head>
   <body ng-app="Admin">
 
@@ -25,7 +26,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="#">Jake's Portfolio</a>
+          <a class="navbar-brand" href="#">Jake's Box</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
@@ -43,10 +44,10 @@
     
     <div class="container-fluid">
       <div class="row">
-        <div class="col-sm-3 col-md-2 sidebar">
+        <div class="col-sm-3 sidebar col-md-2 ">
           <ul class="nav nav-sidebar">
-            <li class="active"><a href="#">List <span class="sr-only">(current)</span></a></li>
-            <li><a href="#" ng-click="">Add</a></li>
+            <li ng-class="{ 'active': location.path() === '/list' || location.path().indexOf('edit') > 0 }"><a href="#list">List</a></li>
+            <li ng-class="{ 'active': location.path() === '/add' }"><a href="#add">Add</a></li>
 <!--            <li><a href="#">Analytics</a></li>
             <li><a href="#">Export</a></li> -->
           </ul>
@@ -62,7 +63,7 @@
             <li><a href="">One more nav</a></li>
             <li><a href="">Another nav item</a></li>
           </ul> -->
-        </div>        
+        </div>
         
             
       <div ng-view></div>
@@ -73,7 +74,6 @@
 
     <!-- Modules -->
     <script src="/js/angular/app.js"></script>
-
     <!-- Controllers -->
 <!--     
     <script src="js/controllers/LoginController.js"></script>

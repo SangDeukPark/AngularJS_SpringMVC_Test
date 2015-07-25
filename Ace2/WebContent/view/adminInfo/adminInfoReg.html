@@ -1,44 +1,39 @@
-<script>
-app.controller('AddController', ['$scope', '$http', '$location', function($scope, $http, $location) {	  	
-	  $scope.add = function() {
-			//		
-			var dataObj = {
-					email : $scope.email,
-					password : $scope.password,
-					name : $scope.name,
-					phoneNumber : $scope.phoneNumber,					
-			};	
+ 
 
-			var res = $http.post('/adminInfo/add/I/0', dataObj);			
-			res.success(function(data, status, headers, config) {
-				console.log(data);
-				$location.path('/list');
-			});
-			res.error(function(data, status, headers, config) {
-				console.log( "failure message: " + JSON.stringify({data: data}));
-			});		
-	    };
-	  }]);
-</script> 
-
-<div class="container col-md-6 col-md-offset-3">
-	<h1 class="text-muted">Member Add</h1>
+<div class="container col-md-10 col-md-offset-2">
+	<h1 class="text-muted">{{title}} User</h1>
 			<form name="userForm" ng-controller="AddController" ng-submit="userForm.$valid && add()" novalidate>
-			  <div class="form-group" ng-class="{ 'has-error': userForm.email.$invalid }">
-			    <input type="email" class="form-control" name="email" ng-model="email" required>
-			  </div>
-			  <div class="form-group" ng-class="{ 'has-error': userForm.password.$invalid }" ng-minlength="4" required>
-			    <input type="password" class="form-control" name="password" ng-model="password" required>
-			  </div>
-			  <div class="form-group" ng-class="{ 'has-error': userForm.confirmPassword.$invalid && userForm.password != userForm.confirmPassword }">
-			    <input type="password" class="form-control" name="confirmPassword" ng-model="confirmPassword" required>
-			  </div>
-			  <div class="form-group" ng-class="{ 'has-error': userForm.name.$invalid }">
-			    <input type="text" class="form-control" name="name" ng-model="name" required>
-			  </div>
-			  <div class="form-group" ng-class="{ 'has-error': userForm.phoneNumber.$invalid }">
-			    <input type="text" class="form-control" name="phoneNumber" ng-model="phoneNumber" required>
-			  </div>
-			  
+			<table><!--  style="box-shadow: -1px 1px 0px lightgray; border-radius: 1px; border: 0px; border-color:grey; border-style:solid; " -->
+				<tr ng-class="{ 'has-error': userForm.email.$invalid && !userForm.email.$pristine }">
+			  		<td style="border-top-left-radius: 4px;border-top-right-radius: 4px;"><label for="email">Email</label></td>
+					<td><input type="email" class="form-control" name="email" title="Email" ng-model="email" required></td>
+			  	</tr>
+			  <tr ng-class="{ 'has-error': userForm.password.$invalid && !userForm.password.$pristine }" ng-minlength="4" required>
+			  	<td><label for="password">Password</label></td>
+			    <td><input type="password" class="form-control" name="password" ng-model="password" required></td>
+			  </tr>
+			  <tr ng-class="{ 'has-error': (userForm.confirmPassword.$invalid && userForm.confirmPassword.$error.pattern) && !userForm.confirmPassword.$pristine  }">
+			  	<td><label for="confirmPassword">Confirm password</label></td>
+			    <td><input type="password" class="form-control" name="confirmPassword" ng-model="confirmPassword" ng-pattern="password" required></td>
+			  </tr>
+			  <tr ng-class="{ 'has-error': userForm.name.$invalid && !userForm.name.$pristine }">
+			  	<td><label for="name">Name</label></td>
+			    <td><input type="text" class="form-control" name="name" ng-model="name" required></td>
+			  </tr>
+			  <tr ng-class="{ 'has-error': userForm.mobileNumber.$invalid && !userForm.mobileNumber.$pristine }">
+			  	<td style="border-bottom-left-radius: 4px; border-bottom-right-radius: 4px;"><label for="mobileNumber">Phone Number</label></td>
+			    <td><input type="text" class="form-control" name="mobileNumber" ng-model="mobileNumber" required></td>
+			  </tr>
+			  <tr>
+			  	<td colspan="2"><input type="submit" class="btn btn-primary pull-middle" value="{{title}}" style="float:right; margin-bottom:3px; margin-top:5px;" /></td>
+			  </tr>			  
+			</table>
 			</form>
 </div>
+<script>
+$( document ).ready(function() {
+	$("form[name='userForm'] tr").addClass( "form-group" );
+	$("form[name='userForm'] tr:not(:last)").addClass( "has-success has-feedback form-inline" );
+	$("form[name='userForm'] td:even:not(:last)").css( "background-color", "#428BCA" );
+});
+</script>

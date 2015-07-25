@@ -123,7 +123,7 @@ public class AdminInfoController {
  	 * insert,update Member Info
  	 */	
     @RequestMapping(value="/add/{command}/{id}", method = RequestMethod.POST)    
- 	public @ResponseBody boolean insertAdminInfo(AdminInfo adminInfo, @PathVariable String command, @PathVariable String id, BindingResult result) throws Exception	
+ 	public @ResponseBody boolean insertAdminInfo(@RequestBody AdminInfo adminInfo, @PathVariable String command, @PathVariable String id, BindingResult result) throws Exception	
  	{ 
     	boolean retBool = true;
  	    //adminInfo.setEmail(adminCommon.getAdminEmail(request));
@@ -131,10 +131,10 @@ public class AdminInfoController {
  	    
  	    try {
 	 	   		
-	 	   	if("I".equals(StringUtil.nullToEmpty(command))) { 	   		
+	 	   	if("Add".equals(StringUtil.nullToEmpty(command))) { 	   		
 	 	   		adminInfoService.insertAdminInfo(adminInfo);
 	 	   	}
-	     	else if ("U".equals(StringUtil.nullToEmpty(command))) {
+	     	else if ("Edit".equals(StringUtil.nullToEmpty(command))) {
 	     		adminInfo.setId(StringUtil.nullToEmpty(id));
 	     		adminInfoService.updateAdminInfo(adminInfo);
 	     	}
@@ -175,27 +175,35 @@ public class AdminInfoController {
 	/**
 	 * get Member Info by id
 	 */	
-  	@RequestMapping(value="/adminInfoView/{id}")
-	public String selectAdminInfoById(@ModelAttribute AdminInfo adminInfo, @PathVariable String id, Model model) throws Exception
+  	@RequestMapping(value="/adminInfoView/{id}", method = RequestMethod.GET)
+	public @ResponseBody AdminInfo selectAdminInfoById(@PathVariable String id, Model model) throws Exception
 	{        	    	
+  		AdminInfo adminInfo = new AdminInfo(); 
 	 	adminInfo.setId(StringUtil.nullToEmpty(id));
-	 	adminInfo = adminInfoService.selectAdminInfoById(adminInfo);
+	 	adminInfo = adminInfoService.selectAdminInfoById(adminInfo);	 	
 	 	
-	 	model.addAttribute("command", "U");
-	 	model.addAttribute("adminInfo", adminInfo);
-	 	
-	 	return "/adminInfo/adminInfoReg"; 
+	 	return adminInfo; 
 	}     
   	
     /**
 	 *  Delete member info
 	 */
-    @RequestMapping(value="/deleteAdminInfo/{id}")
-	public String deleteAdminInfo(AdminInfo adminInfoVO, @PathVariable String id, Model model) throws Exception
+    @RequestMapping(value="/deleteAdminInfo/{id}", method = RequestMethod.GET)
+	public @ResponseBody boolean deleteAdminInfo(@PathVariable String id, Model model) throws Exception
 	{    
-    	adminInfoVO.setId(StringUtil.nullToEmpty(id));
-       	adminInfoService.deleteAdminInfo(adminInfoVO);       	
+    	boolean retBool = true;
+    	
+    	try {
+    		AdminInfo adminInfo = new AdminInfo();
+    		adminInfo.setId(StringUtil.nullToEmpty(id));
+    		adminInfoService.deleteAdminInfo(adminInfo);
+    	}
+    	catch(Exception e) {
+    		retBool = false;
+    		e.printStackTrace();
+    		throw e;
+    	}
        	
-    	return "redirect:/adminInfo/adminInfoList";
+    	return retBool;
 	}    	
 }
